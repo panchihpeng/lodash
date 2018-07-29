@@ -4,14 +4,20 @@ function forEach(array, action) {
     action(array[i])
   }
 }
-// sigma
-function sigma(f, start, end) {
-  let sum = 0
-  for (let i = start; i <= end; i++) {
-    // sum = sum + f(i)
-    sum += f(i)
+// map
+function map(array, action) {
+  let newArray = []
+  array.forEach(function(item, index) {
+    newArray.push(action(item, index, array))
+  })
+  return newArray
+}
+function map(array, action) {
+  let newArray = []
+  for (let i = 0; i < array.length; i++) {
+    newArray.push(action(item, index, array))
   }
-  return sum
+  return newArray
 }
 // filter
 function filter(array, test) {
@@ -23,6 +29,16 @@ function filter(array, test) {
   }
   return newArray
 }
+// sigma
+function sigma(f, start, end) {
+  let sum = 0
+  for (let i = start; i <= end; i++) {
+    // sum = sum + f(i)
+    sum += f(i)
+  }
+  return sum
+}
+
 // chunck
 function chunck(array, size) {
   let newArray = []
