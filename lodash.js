@@ -30,8 +30,12 @@ function filter(array, test) {
   return newArray
 }
 //reduce
-function reduce(){
-	
+function reduce(array, combine, start){
+	let current = start
+	for (let i = 0; i < array.length; i++) {
+		current = combine(current, array[i])
+	}
+	return current
 }
 // sigma
 function sigma(f, start, end) {
