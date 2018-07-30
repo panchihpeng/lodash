@@ -71,3 +71,13 @@ compact([0, 1, false, 2, '', 3])
 
 //difference
 function difference() {}
+
+//reverse
+function reverse(array) {
+    let newArray = []
+    for (let i = array.length - 1; i >= 0; i--) {
+        newArray.push(array[i])
+    }
+    return newArray
+}
+reverse([1, 2, 3])
