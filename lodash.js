@@ -29,6 +29,10 @@ function filter(array, test) {
   }
   return newArray
 }
+//reduce
+function reduce(){
+	
+}
 // sigma
 function sigma(f, start, end) {
   let sum = 0
