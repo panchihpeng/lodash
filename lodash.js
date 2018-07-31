@@ -85,3 +85,6 @@ reverse([1, 2, 3])
 function hello (){
 	
 }
+function oneDay() {
+	console.log(1)
+}
