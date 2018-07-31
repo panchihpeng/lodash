@@ -81,3 +81,7 @@ function reverse(array) {
     return newArray
 }
 reverse([1, 2, 3])
+
+function hello (){
+	
+}
