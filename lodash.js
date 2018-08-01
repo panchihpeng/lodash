@@ -29,14 +29,6 @@ function filter(array, test) {
   }
   return newArray
 }
-//reduce
-function reduce(array, combine, start){
-	let current = start
-	for (let i = 0; i < array.length; i++) {
-		current = combine(current, array[i])
-	}
-	return current
-}
 // sigma
 function sigma(f, start, end) {
   let sum = 0
@@ -81,10 +73,3 @@ function reverse(array) {
     return newArray
 }
 reverse([1, 2, 3])
-
-function hello (){
-	
-}
-function oneDay() {
-	console.log(1)
-}
