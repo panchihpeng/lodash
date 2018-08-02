@@ -73,3 +73,11 @@ function reverse(array) {
     return newArray
 }
 reverse([1, 2, 3])
+
+function find(array,test) {
+	for (let i = 0; i < array.length; i++) {
+		if(test(array[i])) {
+			return i 
+		}
+	}
+}
