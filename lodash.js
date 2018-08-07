@@ -81,3 +81,6 @@ function find(array,test) {
 		}
 	}
 }
+function reduce() {
+	
+}
