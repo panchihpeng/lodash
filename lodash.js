@@ -7,11 +7,12 @@ function forEach(array, action) {
 // map
 function map(array, action) {
   let newArray = []
-  array.forEach(function(item, index) {
+  array.forEach(function (item, index) {
     newArray.push(action(item, index, array))
   })
   return newArray
 }
+
 function map(array, action) {
   let newArray = []
   for (let i = 0; i < array.length; i++) {
@@ -59,28 +60,47 @@ function compact(array) {
   }
   return newArray
 }
+
+function compact(array) {
+  return array.filter((item) => {
+    return Boolean(item)
+  })
+}
 compact([0, 1, false, 2, '', 3])
+
+//reverse
+function reverse(array) {
+  let newArray = []
+  for (let i = array.length - 1; i >= 0; i--) {
+    newArray.push(array[i])
+  }
+  return newArray
+}
+reverse([1, 2, 3])
+
+// find 
+function find(array, test) {
+  for (let i = 0; i < array.length; i++) {
+    if (test(array[i])) {
+      return i
+    }
+  }
+}
 
 //difference
 function difference() {}
 
-//reverse
-function reverse(array) {
-    let newArray = []
-    for (let i = array.length - 1; i >= 0; i--) {
-        newArray.push(array[i])
-    }
-    return newArray
-}
-reverse([1, 2, 3])
-
-function find(array,test) {
-	for (let i = 0; i < array.length; i++) {
-		if(test(array[i])) {
-			return i 
-		}
-	}
-}
+// reduce
 function reduce() {
-	
+
+}
+
+// debounce
+function debounce() {
+
+}
+
+// throttle
+function throttle() {
+
 }
