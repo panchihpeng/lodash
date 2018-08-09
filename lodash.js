@@ -78,6 +78,23 @@ function reverse(array) {
 }
 reverse([1, 2, 3])
 
+// reduce
+function reduce(array, fn, initialValue) {
+  let result = initialValue
+  for (let i = 0; i < array.length; i++) {
+    result = fn(...[result].concat(array[i]))
+    // result = func.apply(null, [result].concat(array[i]));
+  }
+  return result
+}
+let res = reduce([1, 2, 3], function(previousValue, currentValue){
+  return previousValue + currentValue
+}, 0)
+console.log(res)
+// 6
+
+
+
 // find 
 function find(array, test) {
   for (let i = 0; i < array.length; i++) {
@@ -89,11 +106,6 @@ function find(array, test) {
 
 //difference
 function difference() {}
-
-// reduce
-function reduce() {
-
-}
 
 // debounce
 function debounce() {
