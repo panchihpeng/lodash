@@ -20,6 +20,7 @@ function map(array, action) {
   }
   return newArray
 }
+
 // filter
 function filter(array, test) {
   let newArray = []
@@ -79,6 +80,13 @@ function reverse(array) {
 reverse([1, 2, 3])
 
 // reduce
+function reduce (ary, combiner, initialValue) {
+  for (let i = 0; i < ary.length; i++) {
+    initialValue = combiner(initialValue,ary[i]) // = 下次还需要调用
+  }
+  return initialValue
+}
+
 function reduce(array, fn, initialValue) {
   let result = initialValue
   for (let i = 0; i < array.length; i++) {
@@ -87,13 +95,12 @@ function reduce(array, fn, initialValue) {
   }
   return result
 }
-let res = reduce([1, 2, 3], function(previousValue, currentValue){
+
+let res = reduce([1, 2, 3], function (previousValue, currentValue) {
   return previousValue + currentValue
 }, 0)
 console.log(res)
 // 6
-
-
 
 // find 
 function find(array, test) {
@@ -102,6 +109,14 @@ function find(array, test) {
       return i
     }
   }
+}
+
+function find(array, test) {
+  return array.forEach(function (item) {
+    if (test(item)) {
+      return item
+    }
+  })
 }
 
 //difference
