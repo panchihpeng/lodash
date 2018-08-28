@@ -21,6 +21,13 @@ function map(array, action) {
   return newArray
 }
 
+function map(array, action) {
+  return array.reduce((result, item) => {
+    return result.push(action(item))
+    // result.push(action(item))
+    // return result
+  }, [])
+}
 // filter
 function filter(array, test) {
   let newArray = []
@@ -31,6 +38,16 @@ function filter(array, test) {
   }
   return newArray
 }
+
+function filter(array, test) {
+  return array.reduce(function (result, item) {
+    if (test(item)) {
+      result.push(item)
+    }
+    return result
+  }, [])
+}
+
 // sigma
 function sigma(f, start, end) {
   let sum = 0
@@ -80,9 +97,9 @@ function reverse(array) {
 reverse([1, 2, 3])
 
 // reduce
-function reduce (ary, combiner, initialValue) {
+function reduce(ary, combiner, initialValue) {
   for (let i = 0; i < ary.length; i++) {
-    initialValue = combiner(initialValue,ary[i]) // = 下次还需要调用
+    initialValue = combiner(initialValue, ary[i]) // = 下次还需要调用
   }
   return initialValue
 }
