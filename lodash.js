@@ -7,7 +7,7 @@ function forEach(array, action) {
 // map
 function map(array, action) {
   let newArray = []
-  array.forEach(function (item, index) {
+  array.forEach(function(item, index) {
     newArray.push(action(item, index, array))
   })
   return newArray
@@ -40,11 +40,20 @@ function filter(array, test) {
 }
 
 function filter(array, test) {
-  return array.reduce(function (result, item) {
+  return array.reduce(function(result, item) {
     if (test(item)) {
       result.push(item)
     }
     return result
+  }, [])
+}
+
+function filter(ary, test) {
+  return ary.reduce((res, b) => {
+    if (test(b)) {
+      res.push(b)s
+    }
+    return res
   }, [])
 }
 
@@ -80,7 +89,7 @@ function compact(array) {
 }
 
 function compact(array) {
-  return array.filter((item) => {
+  return array.filter(item => {
     return Boolean(item)
   })
 }
@@ -113,13 +122,17 @@ function reduce(array, fn, initialValue) {
   return result
 }
 
-let res = reduce([1, 2, 3], function (previousValue, currentValue) {
-  return previousValue + currentValue
-}, 0)
+let res = reduce(
+  [1, 2, 3],
+  function(previousValue, currentValue) {
+    return previousValue + currentValue
+  },
+  0
+)
 console.log(res)
 // 6
 
-// find 
+// find
 function find(array, test) {
   for (let i = 0; i < array.length; i++) {
     if (test(array[i])) {
@@ -129,7 +142,7 @@ function find(array, test) {
 }
 
 function find(array, test) {
-  return array.forEach(function (item) {
+  return array.forEach(function(item) {
     if (test(item)) {
       return item
     }
@@ -140,11 +153,18 @@ function find(array, test) {
 function difference() {}
 
 // debounce
-function debounce() {
-
-}
+function debounce() {}
 
 // throttle
-function throttle() {
+function throttle() {}
 
+
+// fromPairs
+function fromPairs(pairs) {
+  return pairs.reduce((memo,curr)=>{
+    let key = curr[0]
+    let val = curr[1]
+    memo[key] = val
+    return memo
+  },{})
 }
