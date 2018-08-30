@@ -201,5 +201,41 @@ function once(func) {
     }
   }
 }
-oneRandom = once(Math.random)
+// oneRandom = once(Math.random)
+// func === Math.random
 
+// negate
+function negate(predicate) {
+  return function(...args) {
+    return !predicate(...args)
+  }
+}
+female = negate(male)
+
+// uary
+function uary(f) {
+  return function(arg) {
+    return f(arg)
+  }
+}
+// parseInt('123',16)
+// [1,2,3].map(parseInt)
+
+function ary(f, n = f.length) {
+  return function(...args) {
+    if (n < args.length) {
+      args.length = n
+    }
+    return f(...args)
+  }
+}
+function property(path) {
+  return fuction(obj) {
+    return get(obj,path)
+  }
+}
+
+
+function get() {
+  
+}
