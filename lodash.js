@@ -51,7 +51,7 @@ function filter(array, test) {
 function filter(ary, test) {
   return ary.reduce((res, b) => {
     if (test(b)) {
-      res.push(b)s
+      res.push(b)
     }
     return res
   }, [])
@@ -158,13 +158,48 @@ function debounce() {}
 // throttle
 function throttle() {}
 
-
 // fromPairs
 function fromPairs(pairs) {
-  return pairs.reduce((memo,curr)=>{
+  return pairs.reduce((memo, curr) => {
     let key = curr[0]
     let val = curr[1]
     memo[key] = val
     return memo
-  },{})
+  }, {})
 }
+//[['a',1],['b',2]] =>{a: 1, b:2 }
+
+// flip
+function flip(func) {
+  return function(...args) {
+    return func(...args.reverse)
+  }
+}
+power2 = flip(Math.pow)
+power2(2, 3)
+
+// spread
+function spread(func) {
+  return function(ary) {
+    // return func.apply(null,ary)
+    return func(...ary)
+  }
+}
+
+// once
+function once(func) {
+  let called = false
+  let firstResult
+  return function fuck(...args) {
+    if (!called) {
+      called = true
+      // let firstResult = func(...args)
+      // return firstResult
+      return (firstResult = func.apply(fuck, args))
+    } else {
+      return firstResult
+    }
+  }
+}
+oneRandom = once(Math.random)
+
