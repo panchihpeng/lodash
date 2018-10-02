@@ -150,7 +150,23 @@ function find(array, test) {
 }
 
 //difference
-function difference() {}
+function difference(array) {
+  var result = arguments[0].slice()
+  for (i = 1; i < arguments.length; i++) {
+    for (var val of arguments[i]) {
+      if (result.indexOf(val) !== -1) {
+        result.splice(result.indexOf(val), 1)
+      }
+    }
+  }
+  return result
+}
+function difference(array,...val) {
+  let newArray = [].concat(...val)
+    return array.filter((item)=>{
+      return  !newArray.includes(item)
+  })
+}
 
 // debounce
 function debounce() {}
@@ -230,12 +246,143 @@ function ary(f, n = f.length) {
   }
 }
 function property(path) {
-  return fuction(obj) {
+  return function(obj) {
     return get(obj,path)
   }
 }
 
-
 function get() {
-  
+
 }
+function differenceBy(array,iteratee,...values,) {
+  let predicate = _.iteratee(iteratee)
+  let allVal = values.reduce((a,b)=>{
+    return a.concat(b)
+  })
+ return array.filter((ele)=>{
+   return !allVal.some((unionEle)=>{
+     return predicate(ele) === predicate(unionEle)
+   })
+ })
+}
+function differenceWith(array,comparator,...vals){
+let all = vals.reduce((a,b)=>{
+  return a.concat(b)
+})
+return array.filter((item)=>{
+  return !vals.some(val=>{
+    return comparator(item,val)
+  })
+})
+}
+
+function drop(array,n){
+   return array.slice(n)
+}
+function drop(array,n){
+  return array.slice(0,-n)
+}
+
+function dropRightWhile(array,predicate){
+  const predicate = _.iteratee(predicate)
+  for (let i = array.length -1; i >= 0; i--) {
+    if (!predicate(array[i])){
+      var pos = i
+      break
+    }
+  }
+  return array.slice(0,pos+1)
+}
+
+const dropWhile = (arrays, predicate)=>{
+  return arrays.slice(arrays.findIndex(it => !_.iteratee(predicate)(it)))
+}
+function fill(array,value,start = 0,end = array.length) {
+  for (let i = start; i < end; i++) {
+    array[i] = value
+  }
+  return array
+}
+function findIndex(array,predicate,fromIndex = 0){
+  predicate = _.iteratee(predicate)
+  for (let i = fromIndex; i < array.length; i++) {
+    if (predicate(array[i])) {
+      return i
+    }
+  }
+  return -1
+}
+function findLastIndex (array, predicate ,fromIndex=array.length-1){
+  for (let i = fromIndex; i >= 0; i--) {
+    if (predicate(array[i])) {
+      return i
+    }
+  }
+  return -1
+}
+
+function head(array){
+  return array[0]
+}
+function flatten(array){
+  const  result = []
+  for (let i = 0; i < array.lenth; i++) {
+    if (Array.isArray(ary[i])) {
+      for (let j = 0; j < ary[i].length; j++){
+        result.push(ary[i][j])
+      }
+    } else {
+      result.push(ary[i])
+    }
+  }
+  return result
+}
+function flatten(ary) {
+  return ary.reduce((result,val)=>{
+    if (Array.isArray(val)){
+      val.forEach(item =>{
+        result.push(item)
+      })
+    } else  {
+      result.push(val)
+    }
+    return result
+  },[])
+}
+function flatten(ary) {
+  return [].concat(...ary)
+}
+function flattenDeep(ary) {
+  return ary.reduce((result,val) => {
+    if (Array.isArray(val)) {
+      flattenDeep(val).forEach(item => {
+        result.push(item)
+      })
+    } else  {
+      result.push(val)
+    }
+    return result
+  },[])
+}
+function flattenDeepth(ary,depth = 1) {
+  if (depth === 0) {
+    return ary 
+  }
+  return ary.reduce((result,val) => {
+    if (Array.isArray(val)) {
+      flattenDeepth(val, depth - 1).forEach(item => {
+        result.push(item)
+      })
+    } else  {
+      result.push(val)
+    }
+    return result
+  },[])
+}
+function flattenDepth (ary, depth = 1) {
+  for (let i = 0; i < depth; i++) {
+    ary = flatten(ary)
+  }
+  return ary 
+}
+function bind (fn, thisVal)
