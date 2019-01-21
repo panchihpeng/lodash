@@ -18,6 +18,11 @@ const isNil = val => {
   return val === null || val === undefined
 }
 
+const eq = (first, second) => {
+  if (Number.isNaN(first) && Number.isNaN(second)) return true
+  else return first === second
+}
+
 // Converts value to a property path array.
 
 const toPath = val => {
@@ -220,7 +225,6 @@ const _orderBy = (collection, iteratees, orders = new Array(iteratees.length).fi
   const _predicates = iteratees.map(it => iteratee(it)).reverse()
   let _orders = orders.reverse()
   _predicates.forEach((predicate, i) => {
-    console.log(a,b)
     const compareFn = (a, b) => {
       const _a = predicate(a)
       const _b = predicate(b)
@@ -244,3 +248,137 @@ const _orderBy = (collection, iteratees, orders = new Array(iteratees.length).fi
 // Creates an object composed(构成) of keys generated(生成) from the results of running each element of collection thru iteratee.
 //  The corresponding value of each key is the last element responsible for generating the key. 
 // The iteratee is invoked with one argument: (value).b
+
+const _keyBy = (collection,it = identity) => {
+   const keys = Object.keys(collection)
+   const _predicate = iteratee(it)
+   return keys.reduce((res,key)=>{
+      res[_predicate(collection[key])] = collection[key]
+      return res
+   },{})
+}
+
+
+
+//Invokes the method at path of each element in collection, returning an array of the results of each invoked method. 
+//Any additional arguments are provided to each invoked method. 
+//If path is a function, it's invoked for, and this bound to (be bound to 必定), each element in collection.
+
+const invokeMap = (collection, path, ...args)=>{
+  const type = getType(path)
+  const keys = Object.keys(collection)
+  const fn 
+  if (type === 'string') {
+    fn = collection[keys[0]][path]
+  } else if(type === 'function') {
+    fn = path
+  }
+  return keys.map(key => {
+    let currVal = collection[key]
+    if (getType(currVal) === 'number') currVal += ''
+    return fn.apply(currVal, args)
+  })
+}
+
+
+// Checks if value is in collection. If collection is a string, it's checked for a substring of value, otherwise SameValueZero is used for equality comparisons. 
+// If fromIndex is negative, it's used as the offset from (代替)  the end of collection.
+
+const _includes = (collection, val, fromIndex = 0)=> {
+  const type = getType(collection)
+  if (type === 'array') {
+    let newArray = fromIndex >= 0 ? collection.slice(0, collection.length + fromIndex) : collection.slice(fromIndex)
+    return newArray.some(item => eq(item,val))
+  } else if (type === 'string') {
+    let newString = fromIndex >= 0 ?collection.substring(0, collection.length + fromIndex) : collection.substring(fromIndex)
+    return newString.includes(val)
+  } else if(type === 'object') {
+    let keys = Object.keys(collection)
+    return keys.some(key => eq(collection[key], val))
+  }
+}
+
+
+// Creates an object composed of keys generated from the results of running each element of collection thru iteratee. 
+// The order of grouped values is determined by the order they occur in collection.
+// The corresponding value of each key is an array of elements responsible for generating the key.
+// The iteratee is invoked with one argument: (value).
+
+const _groupBy = (collection, it ) => {
+  let keys = Object.keys(collection)
+  const _predicate = iteratee(it)
+  const res = {}
+  keys.forEach(key => {
+    let currVal = collection[key]
+    if (res[_predicate(currVal)] === undefined) {
+      res[_predicate(currVal)] = [currVal]
+    } else {
+      res[_predicate(currVal)].push(currVal)
+    }
+  })
+  return res 
+}
+
+const _groupBy = (collection, it)=>{
+  let keys = Object.keys(collection)
+  console.log(keys)
+  const _predicate = iteratee(it)
+  return keys.reduce((res,key)=>{
+      let currVal = collection[key]
+      console.log(currVal)
+      if (res[_predicate(currVal)] === undefined) {
+          res[_predicate(currVal)] = [currVal]
+      } else {
+          res[_predicate(currVal)].push(currVal)
+      }
+      return res
+  }
+  , {})
+}
+
+
+
+// Creates an object composed of keys generated from the results of running each element of collection thru iteratee.
+// The corresponding value of each key is the number of times the key was returned by iteratee.
+// The iteratee is invoked with one argument: (value).
+
+const _countBy = (collection, it ) => {
+  let keys = Object.keys(collection)
+  let _predicate = iteratee(it)
+  return keys.reduce((res, key) => {
+    if (res[_predicate(collection[key])]) {
+      res[_predicate(collection[key])]++
+    } else {
+      res[_predicate(collection[key])] = 1
+    }
+    return res
+  },{})
+}
+
+
+// Checks if predicate returns truthy for all elements of collection.
+// Iteration is stopped once predicate returns falsey.
+// The predicate is invoked with three arguments: (value, index|key, collection).
+
+
+const _every = (collection,it) => {
+  let _predicate = iteratee(it)
+  for (let val of collection) {
+      if (!_predicate(val))
+          return false
+  }
+  return true
+}
+
+// const _every = (collection,it)=>{
+//   let values = Object.values(collection)
+//   let _predicate = iteratee(it)
+//   values.forEach((ele,index)=>{
+//       if (!_predicate(ele)) {
+//           return false
+//       }
+//   }
+//   )
+//   return true
+// }
+// _every([true, 1, null, 'yes'], Boolean)
