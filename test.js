@@ -382,3 +382,61 @@ const _every = (collection,it) => {
 //   return true
 // }
 // _every([true, 1, null, 'yes'], Boolean)
+
+
+//Iterates over elements of collection, returning an array of all elements predicate returns truthy for. 
+//The predicate is invoked with three arguments: (value, index|key, collection).
+
+const _filter = (collection, predicate) => {
+  let values = Object.values(collection)
+  let _predicate = iteratee(predicate)
+  let newArray = []
+  values.forEach((item, index)=>{
+    if (_predicate(item)) {
+      newArray.push(item)
+    }
+  })
+  return newArray
+}
+
+
+// Iterates over elements of collection, returning the first element predicate returns truthy for. 
+// The predicate is invoked with three arguments: (value, index|key, collection).
+
+const _find = (collection, predicate, fromIndex=0 ) =>{
+  let values = Object.values(collection)
+  let _predicate = iteratee(predicate)
+ for (let i = fromIndex; i < values.length; i++) {
+   if (_predicate(i)) {
+     return values[i]
+   }
+ }
+ return undefined
+}
+
+
+
+
+//Creates a flattened array of values by running each element in collection thru iteratee and flattening the mapped results.
+// The iteratee is invoked with three arguments: (value, index|key, collection).
+const _flatMap = (collection, iteratee) =>{
+  let values = Object.values(collection)
+  let _predicate =  iteratee(iteratee)
+  let newArray = []
+  values.forEach((item)=>{
+    res.push(..._predicate(item))
+  })
+  return newArray
+}
+
+const _flatMapDeep = (collection, iteratee, depth = 1)=> {
+  let values = Object.values(collection)
+  let _predicate = iteratee(iteratee)
+  return values.reduce((res, val)=>{
+    res.push(..._flatMapDeep(_predicate(val)))
+    return res 
+},[])
+}
+
+
+// call apply throttle debounce curry  bind 
