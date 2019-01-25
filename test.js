@@ -439,4 +439,159 @@ const _flatMapDeep = (collection, iteratee, depth = 1)=> {
 }
 
 
-// call apply throttle debounce curry  bind 
+// call apply throttle debounce curry
+
+// 将函数设为对象的属性
+// 执行该函数
+// 删除该函数
+
+const _call_apply = (context, ...args) => {
+  // 可以通过 this 获取调用 call 的函数
+  context.fn = this
+  let res = context.fn(...args)
+  delete context.fn
+  return res 
+}
+
+
+
+// throttle (节流)
+
+//首先我们来看看 throttle 函数的工作方式，从字面意思上看可以理解为事件在一个管道中传输，加上这个节流阀以后，事件的流速就会减慢。
+// 实际上这个函数的作用就是如此，它可以将一个函数的调用频率限制在一定阈值内，例如 1s，那么 1s 内这个函数一定不会被调用两次.
+//上方的时间轴代表上游事件，可能是用户的输入事件或设备传感器发出的回调事件，如果没有经过 throttle 函数处理，那么每次事件就会对应一次响应，
+//假设一个用户某次输入了 10 个字符的搜索关键字，那么服务器就需要处理 10 次检索请求，
+//而如果加上节流阀，并且用户输入文字的手速很快，那么可能服务器就会收到两次请求。
+
+//方法1 ：使用时间戳，当触发事件的时候，我们取出当前的时间戳，然后减去之前的时间戳(最一开始值设为 0 )，
+// 如果大于设置的时间周期，就执行函数，然后更新时间戳为当前的时间戳，如果小于，就不执行。
+
+const throttle = (fn, wait) => {
+  let context;
+  let args;
+  let previous = 0
+   return () => {
+     let nowTime = +new Date()
+     context = this
+     args = arguments
+     if (nowTime - previous > wait){
+       fn.apply(context, args)
+       previous = nowTime
+     }
+   }
+}
+
+// container.onmousemove = throttle(getUserAction, 1000);
+
+
+
+
+ function debounce(func, wait, immediate) {
+  let timeout, args, context, timestamp, result
+
+  const later = function() {
+    // 据上一次触发时间间隔
+    const last = +new Date() - timestamp
+
+    // 上次被包装函数被调用时间间隔last小于设定时间间隔wait
+    if (last < wait && last > 0) {
+      timeout = setTimeout(later, wait - last)
+    } else {
+      timeout = null
+      // 如果设定为immediate===true，因为开始边界已经调用过了此处无需调用
+      if (!immediate) {
+        result = func.apply(context, args)
+        if (!timeout) context = args = null
+      }
+    }
+  }
+
+  return function(...args) {
+    context = this
+    timestamp = +new Date()
+    const callNow = immediate && !timeout
+    // 如果延时不存在，重新设定延时
+    if (!timeout) timeout = setTimeout(later, wait)
+    if (callNow) {
+      result = func.apply(context, args)
+      context = args = null
+    }
+    return result
+  }
+ }
+
+
+//  curry 的概念很简单：只传递给函数一部分参数来调用它，让它返回一个函数去处理剩下的参数。
+// 是把接受多个参数的函数变换成接受一个单一参数（最初函数的第一个参数）的函数，并且返回接受余下的参数而且返回结果的新函数的技术。
+
+function _curry(fn){
+  let args = [].slice.call(arguments, 1)
+  return function () {
+    let newArgs = args.concat([].slice.call(arguments))
+    return fn.apply(null, newArgs)
+  }
+}
+
+//Defers(延期) invoking the func until the current call stack has cleared. 
+//Any additional arguments are provided to func when it's invoked.
+
+const defer = (fn, ...args) => {
+  return setTimeout(() => {
+  return  fn(...args)
+  }, 0);
+}
+
+
+// Invokes func after wait milliseconds. 
+// Any additional arguments are provided to func when it's invoked.
+const delay = (fn, wait, ...args)=>{
+  return setTimeout(() => {
+    return fn(...args)
+  }, wait);
+}
+
+
+// Performs a SameValueZero comparison between two values to determine if they are equivalent.
+
+// Casts value as an array if it's not one.
+
+_castAarry = (value)=> {
+  let type = getType(value)
+  if (type === 'array') {
+    return value
+  } else {
+    return [value]
+  }
+}
+
+
+
+// Checks if value is greater than other.
+
+_gte = (value, other)=>{
+  return value >= other
+}
+
+
+// Checks if value is array-like.
+// A value is considered array-like if it's not a function and has a value.
+// length that's an integer greater than or equal to 0 and less than or equal to Number.MAX_SAFE_INTEGER.
+
+_isArrayLike = (val)=>{
+  let type = getType(val)
+  let len = val.length
+  if(type === 'function' || type === 'null'){
+    return false
+  }
+  if (len === undefined){
+    return false
+  }
+  return getType(length) === 'number' && length >= 0 && length < Number.MAX_SAFE_INTEGER
+}
+
+
+_isElement = val => val instanceof Element
+
+_toArray = (value) =>  {
+  return (value === null || value === undefined) ? [] :  Array.from(Object.values(value))
+}
