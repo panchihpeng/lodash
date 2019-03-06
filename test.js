@@ -595,3 +595,88 @@ _isElement = val => val instanceof Element
 _toArray = (value) =>  {
   return (value === null || value === undefined) ? [] :  Array.from(Object.values(value))
 }
+
+
+// Assigns own enumerable string keyed properties of source objects to the destination object (目标对象).
+// Source objects are applied from left to right. Subsequent sources overwrite property assignments of previous sources.
+
+
+
+_assign = (object, ...sources) => {
+  sources.forEach((source)=>{
+    Object.entries(source).forEach(([prop, val])=>{
+      object[prop] = val
+    })
+  })
+  return object 
+}
+
+_assignin = (...objs) => {
+  let res = {}
+  objs.forEach(obj => {
+    for (let prop in obj) {
+      res[prop] = obj[prop]
+    }
+  })
+  return res 
+}
+
+_at = (obj, paths) => paths.map(path => property(path)(obj)) 
+
+_defaults = (object, ...sources) => {
+  sources.forEach(source => {
+    for (let prop in source) {
+      if (!obj.hasOwnProperty(prop)) {
+        object[prop] = source[prop]
+      }
+    }
+  })
+ return source 
+}
+
+
+_defaultsDeep = (object, sources) => {
+  let keys = Object.keys(sources)
+  for (let key of keys) {
+    if (typeof sources[key] === 'object' && typeof object[key] === 'object') {
+      _defaultsDeep(object[key], sources[key])
+    } else {
+      if (!object[key]) {
+        object[key] = sources[key]
+      }
+    }
+  }
+  return object 
+}
+
+
+
+// This method is like _.find except that it returns the key of the first element predicate returns truthy for instead of the element itself.
+
+
+function CallatzGuess(num){
+  let a = 0
+  while(num!=1 ){
+    if (num % 2 !== 0 ) {
+     num =   (num * 3  + 1) / 2
+      a++
+    } else {
+      num = num / 2
+      a++
+    }
+  }
+  return a
+}
+
+function write(num){
+  let a = 0
+  let b
+ while (num!=0) {
+  b  = num % 10 
+  num =  (num - b ) / 10
+  a = a + b 
+ }
+}
+const hello = ()=>{
+  console.log(1)
+}
