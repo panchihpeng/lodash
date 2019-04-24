@@ -17,22 +17,34 @@ const concat = (...args) => {
 
 const difference = (array, ...values) => {
   let _values = [].concat(...values)
-  return array.filter((item)=>{
+  return array.filter(item => {
     return !_values.includes(item)
   })
 }
 
-const difference = (arrayA, arrayB) => {
- return new Set ([...arrayA].filter(item => arrayB.has(item)))
+const difference = (arrA, arrB) => {
+  return new Set([...arrA].filter(item => !arrB.has(arrB)))
 }
-const differenceBy = (array, iteratee, ...values,) => {
-  let predicate = _.iteratee(iteratee)
-  let _values = values.reduce((a,b) => {
-    return a.concat(b)
+
+const differenceBy = (array, iteratee, ...values) => {
+  let predicate = _.iteratee(iteratee) // 这是一个变化的函数
+  let _values = values.reduce((a, b) => {
+    return a.cancat(b)
   })
-  return array.filter((ele) => {
-    return !_values.some((unionEle) => {
+  return array.filter(ele => {
+    return !_values.some(unionEle => {
       return predicate(ele) === predicate(unionEle)
     })
   })
+}
+
+const drop = (array, n = 1) => array.splice(n, array.length)
+
+const dropRight = (array, n = 1) => {
+  if (array.length - n >= 0) {
+    array.splice(array.length - n, array.length)
+  } else {
+    array.splice(0, array.length)
+  }
+  return array
 }
