@@ -49,4 +49,15 @@ const dropRight = (array, n = 1) => {
   return array
 }
 
-const dropRightWhile = () => {}
+const dropRightWhile = (array, predicate) => {
+  let predicate = _.iteratee(predicate)
+  let len = array.length
+  let pos
+  for (let i = len; i >= 0; i--) {
+    if (!predicate(array[i])) {
+      pos = i
+      break
+    }
+  }
+  return array.slice(0, pos + 1)
+}
