@@ -48,3 +48,5 @@ const dropRight = (array, n = 1) => {
   }
   return array
 }
+
+const dropRightWhile = () => {}
