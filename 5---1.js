@@ -61,3 +61,42 @@ const dropRightWhile = (array, predicate) => {
   }
   return array.slice(0, pos + 1)
 }
+
+const dropWhile = (array, predicate) => {
+  let _predicate = _.iteratee(predicate)
+  let flagIndex = array.findIndex(item => !_predicate(item))
+  return array.slice(flagIndex)
+}
+
+const dropWhile = (array, predicate) => {
+  return array.slice(array.findIndex(item => !_.iteratee(predicate)(item)))
+}
+
+const fill = (array, value, start = 0, end = array.length) => {
+  for (let i = start; i < end; i++) {
+    array[i] = value
+  }
+  return array
+}
+
+const findIndex = (array, predicate, fromIndex = 0) => {
+  let _predicate = _.iteratee(predicate)
+  for (let i = fromIndex; i < array.length; i++) {
+    if (_predicate(array[i])) {
+      return i
+    }
+  }
+  return -1
+}
+
+const findLastIndex = (array, predicate, fromIndex = array.length - 1) => {
+  let _predicate = _.iteratee(predicate)
+  for (let i = fromIndex; i >= 0; i--) {
+    if (_predicate(array[i])) {
+      return i
+    }
+  }
+  return -1
+}
+
+const head = array => array[0]
