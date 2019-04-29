@@ -145,6 +145,37 @@ const flatten = array => array.reduce((acc, cur) => acc.concat(cur), [])
 
 const flatten = array => Array.prototype.concat.apply([], array)
 
+// todo
+const flattenDeep = array => {
+  return array.reduce((acc, cur, index, src)=> {
+    if (Array.isArray(cur)) {
+      flattenDeep(cur).forEach((it)=>{
+        acc.push(it)
+      })
+    } else {
+      acc.push(cur)
+    }
+    return acc
+  },[])
+}
+
+const flattenDeep = array => arr1.reduce((acc, val) => Array.isArray(val) ? acc.concat(flattenDeep(val)) : acc.concat(val), [])
+
+function flattenDeepth(ary, depth = 1) {
+  if (depth === 0) {
+    return ary
+  }
+  return ary.reduce((result, val) => {
+    if (Array.isArray(val)) {
+      flattenDeepth(val, depth - 1).forEach(item => {
+        result.push(item)
+      })
+    } else {
+      result.push(val)
+    }
+    return result
+  }, [])
+}
 // 计算数组中每个元素出现的次数
 
 const names = ['Alice', 'Bob', 'Tiff', 'Bruce', 'Alice']
@@ -160,13 +191,9 @@ const countedNames = array => {
   }, {})
 }
 
-const people = [
-  { name: 'Alice', age: 21 }, 
-  { name: 'Max', age: 20 }, 
-  { name: 'Jane', age: 20 }
-]
+const people = [{ name: 'Alice', age: 21 }, { name: 'Max', age: 20 }, { name: 'Jane', age: 20 }]
 const groupBy = (array, property) => {
-  array.reduce((acc, cur, idx, src) => {
+  return array.reduce((acc, cur, idx, src) => {
     let key = cur[property]
     if (!acc[key]) {
       acc[key] = []
