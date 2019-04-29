@@ -26,11 +26,15 @@ const difference = (arrA, arrB) => {
   return new Set([...arrA].filter(item => !arrB.has(arrB)))
 }
 
+// todos
+
 const differenceBy = (array, iteratee, ...values) => {
   let predicate = _.iteratee(iteratee) // 这是一个变化的函数
   let _values = values.reduce((a, b) => {
     return a.cancat(b)
   })
+  // array 的每一项在 values中有没有
+  // some  只要存在 返回真
   return array.filter(ele => {
     return !_values.some(unionEle => {
       return predicate(ele) === predicate(unionEle)
@@ -100,3 +104,74 @@ const findLastIndex = (array, predicate, fromIndex = array.length - 1) => {
 }
 
 const head = array => array[0]
+
+const flatten = array => {
+  let ret = []
+  array.forEach(item => {
+    if (Array.isArray(item)) {
+      item.forEach(it => {
+        ret.push(it)
+      })
+    } else {
+      ret.push(item)
+    }
+  })
+  return ret
+}
+
+const flatten = array => {
+  return array.reduce((acc, cur, idx, src) => {
+    if (Array.isArray(cur)) {
+      cur.forEach(item => {
+        acc.push(item)
+      })
+    } else {
+      acc.push(cur)
+    }
+    return acc
+  }, [])
+}
+
+const flatten = array => [].concat(...array)
+
+const flatten = array => {
+  return array.reduce((acc, cur) => {
+    let _res = acc.concat(cur)
+    return _res
+  }, [])
+}
+
+const flatten = array => array.reduce((acc, cur) => acc.concat(cur), [])
+
+const flatten = array => Array.prototype.concat.apply([], array)
+
+// 计算数组中每个元素出现的次数
+
+const names = ['Alice', 'Bob', 'Tiff', 'Bruce', 'Alice']
+
+const countedNames = array => {
+  return array.reduce((acc, cur, index, src) => {
+    if (cur in acc) {
+      acc[cur]++
+    } else {
+      acc[cur] = 1
+    }
+    return acc
+  }, {})
+}
+
+const people = [
+  { name: 'Alice', age: 21 }, 
+  { name: 'Max', age: 20 }, 
+  { name: 'Jane', age: 20 }
+]
+const groupBy = (array, property) => {
+  array.reduce((acc, cur, idx, src) => {
+    let key = cur[property]
+    if (!acc[key]) {
+      acc[key] = []
+    }
+    acc[key].push(cur)
+    return acc
+  }, {})
+}
