@@ -147,21 +147,21 @@ const flatten = array => Array.prototype.concat.apply([], array)
 
 // todo
 const flattenDeep = array => {
-  return array.reduce((acc, cur, index, src)=> {
+  return array.reduce((acc, cur, index, src) => {
     if (Array.isArray(cur)) {
-      flattenDeep(cur).forEach((it)=>{
+      flattenDeep(cur).forEach(it => {
         acc.push(it)
       })
     } else {
       acc.push(cur)
     }
     return acc
-  },[])
+  }, [])
 }
 
-const flattenDeep = array => arr1.reduce((acc, val) => Array.isArray(val) ? acc.concat(flattenDeep(val)) : acc.concat(val), [])
+const flattenDeep = array => array.reduce((acc, val) => (Array.isArray(val) ? acc.concat(flattenDeep(val)) : acc.concat(val)), [])
 
-function flattenDeepth(ary, depth = 1) {
+const flattenDeepth = (ary, depth = 1) => {
   if (depth === 0) {
     return ary
   }
@@ -201,4 +201,67 @@ const groupBy = (array, property) => {
     acc[key].push(cur)
     return acc
   }, {})
+}
+
+const fromPairs = array => {
+  return array.reduce((acc, cur) => {
+    acc[cur[0]] = cur[1]
+    return acc
+  }, {})
+}
+
+const indexOf = (array, value, fromIndex = 0) => {
+  let len = array.length
+  if (fromIndex < 0) {
+    fromIndex += len
+  }
+  for (let i = 0; i < len; i++) {
+    if (array[i] === value) {
+      return i
+    }
+  }
+  return -1
+}
+
+const initial = array => array.splice(0, array.length - 1)
+
+const intersection = new Set([...a].filter(x => b.has(x)))
+
+const intersection = (...arrays) => {
+  let flagElement = arrays.shift()
+
+  return flagElement.reduce((acc, cur) => {
+    if (arrays.every(array => array.includes(cur))) {
+      acc.push(cur)
+    }
+    return acc
+  }, [])
+}
+
+// todo
+const intersectionBy = (predicate, ...arrays) => {
+  let predicate = _.iteratee(predicate)
+  let initArrays = arrays.map(it => predicate(it))
+  let flagElement = initArrays.shift()
+
+  return flagElement.reduce((acc, cur) => {
+    if (initArrays.every(array => array.includes(cur))) {
+      acc.push(cur)
+    }
+    return acc
+  }, [])
+}
+
+function intersectionBy(...arrays) {
+  let predicate = _.iteratee(arrays.pop())
+  let flagArray = arrays.shift()
+  return arrays.reduce((result, val) => {
+    let val = val.map(it => predicate(it))
+    flagArray.forEach(it => {
+      if (val.includes(predicate(it))) {
+        result.push(it)
+      }
+    })
+    return result
+  }, [])
 }
