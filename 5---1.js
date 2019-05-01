@@ -252,7 +252,7 @@ const intersectionBy = (predicate, ...arrays) => {
   }, [])
 }
 
-function intersectionBy(...arrays) {
+const intersectionBy = (...arrays) => {
   let predicate = _.iteratee(arrays.pop())
   let flagArray = arrays.shift()
   return arrays.reduce((result, val) => {
@@ -264,4 +264,34 @@ function intersectionBy(...arrays) {
     })
     return result
   }, [])
+}
+
+const join = (array, separator) => {
+  return array.reduce((acc, cur) => {
+    acc = acc + cur + separator
+    return acc
+  }, '')
+}
+
+const last = array => array.splice(array.length - 1, array.length)
+
+const last = array => array[array.length - 1]
+
+const lastIndexof = (array, value, fromIndex = array.length - 1) => {
+  for (let i = fromIndex; i >= 0; i--) {
+    if (array[i] === value) {
+      return i
+    }
+  }
+  return -1
+}
+
+const nth = (array, n) => array[n >= 0 ? n : n + array.length]
+
+const pull = (array, ...value) => array.filter(item => !value.includes(item))
+
+const pullBy = (array, predicate, ...values) => {
+  let _predicate = _.iteratee(predicate)
+  let _values = values.map(it => _predicate(it))
+  return array.filter(item => !_values.includes(item))
 }
