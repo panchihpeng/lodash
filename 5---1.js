@@ -295,3 +295,45 @@ const pullBy = (array, predicate, ...values) => {
   let _values = values.map(it => _predicate(it))
   return array.filter(item => !_values.includes(item))
 }
+
+const pullAt = (array, ...indexs) => {
+  let _array = indexs.map(item => array[item])
+  return array.filter(item => !_array.includes(item))
+}
+
+const remove = (array, predicate) => {
+  let _predicate = _.iteratee(predicate)
+  return array.filter(it => !_predicate(it))
+}
+
+const reverse = array => {
+  return array.reduceRight((acc, cur) => {
+    acc.push(cur)
+    return acc
+  }, [])
+}
+
+// 如果找到 target 返回相应的 index  如果没有找到 就返回 -1
+const binarySearch = (array, target) => {
+  let len = array.length
+  let left = 0
+  let right = len - 1
+  //  在 array 为 [left ... right] 中查找
+  // floo 最先出现, ceil 最后出现
+  while (left <= right) {
+    // let mid = ((left + right) / 2) | 0
+    let mid = (left + (right - left) / 2) | 0
+    if (array[mid] === target) {
+      return mid
+    }
+    if (array[mid] > target) {
+      // 在 array[left...mid-1]中查找target
+      right = mid - 1
+    } else {
+      // target > arr[mid]
+      // 在array[mid+1...right]中查找target
+      left = mid + 1
+    }
+  }
+  return -1
+}
