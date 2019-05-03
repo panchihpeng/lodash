@@ -337,3 +337,18 @@ const binarySearch = (array, target) => {
   }
   return -1
 }
+
+const tail = array => array.slice(1, array.length)
+
+const take = (array, n = 1) => array.slice(0, n)
+
+const takeRight = (array, n) => array.slice(array.length - n >= 0 ? array.length - n : 0, array.length)
+
+const takeWhile = (array, predicate) => {
+  let _predicate = _.iteratee(predicate)
+  for (let i = 0; i < array.length; i++) {
+    if (!_predicate(array[i])) {
+      return array.slice(0,i)
+    }
+  }
+}
