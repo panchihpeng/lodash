@@ -352,3 +352,8 @@ const takeWhile = (array, predicate) => {
     }
   }
 }
+
+
+const union = (...arrays) => {
+  
+}
