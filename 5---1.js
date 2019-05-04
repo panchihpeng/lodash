@@ -348,12 +348,18 @@ const takeWhile = (array, predicate) => {
   let _predicate = _.iteratee(predicate)
   for (let i = 0; i < array.length; i++) {
     if (!_predicate(array[i])) {
-      return array.slice(0,i)
+      return array.slice(0, i)
     }
   }
 }
 
-
 const union = (...arrays) => {
-  
+  return [
+    ...new Set(
+      arrays.reduce((acc, cur) => {
+        acc.push(...cur)
+        return acc
+      }, [])
+    )
+  ]
 }
