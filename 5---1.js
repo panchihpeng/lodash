@@ -377,4 +377,63 @@ const unionBy = (predicate, ...arrays) => {
   }, [])
 }
 
-const uniq = array=>[...new Set(array)]
+const uniq = array => [...new Set(array)]
+
+const uniq = array => {
+  return array.reduce((acc, cur) => {
+    if (!acc.includes(cur)) {
+      acc.push(cur)
+    }
+    return acc
+  }, [])
+}
+
+const array = [
+  {
+    name: 'ZYTX',
+    age: 'Y',
+    gender: 'A'
+  },
+  {
+    name: 'ZYTA',
+    age: 'Y',
+    gender: 'B'
+  },
+  {
+    name: 'ZDTX',
+    age: 'Y',
+    gender: 'C'
+  },
+  {
+    name: 'ZYTX',
+    age: 'Y',
+    gender: 'A'
+  }
+]
+
+// 数组对象 属性去重
+// reduce 写的是没有看懂的
+// todo
+
+let hash = {}
+let newArray = array.reduce((acc, cur) => {
+  hash[cur.name] ? '' : (hash[cur.name] = true && acc.push(cur))
+  return acc
+}, [])
+
+const uniqueArrayObject = array => {
+  let _map = new Map()
+  return array.filter(item => {
+    return !_map.has(item.name) && _map.set(item.name)
+  })
+}
+
+const uniqueArrayObject = array => {
+  let _map = new Map()
+  array.forEach(item => {
+    if (!map.has(item.name)) {
+      map.set(item.name, item)
+    }
+  })
+  return [..._map.values()]
+}
