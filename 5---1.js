@@ -411,21 +411,20 @@ const array = [
   }
 ]
 
-// 数组对象 属性去重
-// reduce 写的是没有看懂的
+// 数组对象属性去重
 // todo
 
-let hash = {}
-let newArray = array.reduce((acc, cur) => {
-  hash[cur.name] ? '' : (hash[cur.name] = true && acc.push(cur))
-  return acc
-}, [])
-
 const uniqueArrayObject = array => {
-  let _map = new Map()
-  return array.filter(item => {
-    return !_map.has(item.name) && _map.set(item.name)
-  })
+  let hash = {}
+  return array.reduce((acc, cur) => {
+    // hash[cur.name] ? '' : (hash[cur.name] = true && acc.push(cur))
+    // return acc
+    if (!hash[cur.name]) {
+      hash[cur.name] = true
+      acc.push(cur)
+    }
+    return acc
+  }, [])
 }
 
 const uniqueArrayObject = array => {
@@ -436,4 +435,11 @@ const uniqueArrayObject = array => {
     }
   })
   return [..._map.values()]
+}
+
+const uniqueArrayObject = array => {
+  let _map = new Map()
+  return array.filter(item => {
+    return !_map.has(item.name) && _map.set(item.name)
+  })
 }
