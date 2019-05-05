@@ -363,3 +363,18 @@ const union = (...arrays) => {
     )
   ]
 }
+
+// todo
+const unionBy = (predicate, ...arrays) => {
+  let _predicate = _.iteratee(predicate)
+  return arrays.reduce((array, val) => {
+    val.forEach(res => {
+      if (!array.map(it => _predicate(it)).includes(_predicate(res))) {
+        array.push(res)
+      }
+    })
+    return array
+  }, [])
+}
+
+const uniq = array=>[...new Set(array)]
