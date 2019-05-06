@@ -443,3 +443,30 @@ const uniqueArrayObject = array => {
     return !_map.has(item.name) && _map.set(item.name)
   })
 }
+
+const unzip = array => {
+  return array.shift().reduce((acc, cur) => {
+    let _cur = [cur]
+    array.forEach(it => {
+      _cur.push(it.shift())
+    })
+    acc.push(_cur)
+    return acc
+  }, [])
+}
+
+const without = (array, ...values) => {
+  return array.filter(item => {
+    return !values.includes(item)
+  })
+}
+
+const xor = (...arrays) => {
+  let res = new Set(arrays.shif())
+  arrays.forEach(arr => {
+    arr.forEach(val => {
+      !res.has(val) ? res.add(val) : res.delete(val)
+    })
+  })
+  return [...res]
+}
