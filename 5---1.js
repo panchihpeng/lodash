@@ -444,6 +444,7 @@ const uniqueArrayObject = array => {
   })
 }
 
+// todo
 const unzip = array => {
   return array.shift().reduce((acc, cur) => {
     let _cur = [cur]
@@ -461,6 +462,7 @@ const without = (array, ...values) => {
   })
 }
 
+// todo
 const xor = (...arrays) => {
   let res = new Set(arrays.shif())
   arrays.forEach(arr => {
@@ -469,4 +471,23 @@ const xor = (...arrays) => {
     })
   })
   return [...res]
+}
+
+const zip = (...arrays) => {
+  let _array = arrays.shift()
+  return _array.reduce((acc, cur, index) => {
+    let _cur = [cur]
+    arrays.forEach(item => {
+      _cur.push(item[index])
+    })
+    acc.push(_cur)
+    return acc
+  }, [])
+}
+
+const zipObject = (arrayKey, arrayValue) => {
+  return arrayKey.reduce((acc, cur, index) => {
+    acc[cur] = arrayValue[index]
+    return acc
+  }, {})
 }
