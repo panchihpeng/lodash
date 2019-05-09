@@ -491,3 +491,58 @@ const zipObject = (arrayKey, arrayValue) => {
     return acc
   }, {})
 }
+
+// Collection
+
+const countBy = (array, predicate) => {
+  let _predicate = _.iteratee(predicate)
+  return array.reduce((acc, cur) => {
+    acc[_predicate(cur)] ? acc[_predicate(cur)]++ : (acc[_predicate(cur)] = 1)
+    return acc
+  }, {})
+}
+
+const forEach = (array, fn) => {
+  let len = array.length
+  for (let i = 0; i < len; i++) {
+    fn(array[i])
+  }
+}
+
+const eachRight = (array, fn) => {
+  let len = array.length
+  for (let i = len; i <= 0; i--) {
+    fn(array[i])
+  }
+}
+
+const every = (array, predicate) => {
+  let _predicate = _.iteratee(predicate)
+  for (let key of array) {
+    if (!_predicate(key)) {
+      return false
+    }
+  }
+  return true
+}
+
+const filter = (array, predicate) => {
+  let _predicate = _.iteratee(predicate)
+  return array.reduce((acc, cur) => {
+    if (_predicate(cur)) {
+      acc.push(cur)
+    }
+    return acc
+  }, [])
+}
+
+const findIndex = (array, predicate, fromIndex = 0) => {
+  let _predicate = _.iteratee(predicate)
+  let len = array.length
+  for (let i = fromIndex; i < len; i++) {
+    if (_predicate(array[i])) {
+      return i
+    }
+  }
+  return -1
+}
