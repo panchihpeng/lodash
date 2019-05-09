@@ -546,3 +546,57 @@ const findIndex = (array, predicate, fromIndex = 0) => {
   }
   return -1
 }
+
+const groupBy = (array, predicate) => {
+  let _predicate = _.iteratee(predicate)
+  return array.reduce((acc, cur) => {
+    if (!acc[_predicate(cur)]) {
+      acc[_predicate(cur)] = []
+    }
+    acc[_predicate(cur)].push(cur)
+    return acc
+  }, {})
+}
+
+const includes = (collection, values) => {
+  if (typeof collection === 'string') {
+    return collection.indexOf(values) > -1
+  } else {
+    let _collection = Object.values(collection)
+    for (let key of _collection) {
+      if (key === values) {
+        return true
+      }
+    }
+    return false
+  }
+}
+
+const invokeMap = (collection, path, args) => {
+  let _predicate
+  if (typeof path === 'string') {
+    _predicate = Object.values(collection)[path]
+  } else {
+    _predicate = path
+  }
+  return collection.reduce((res, val) => {
+    res.push(_predicate.call(val, args))
+    return res
+  }, [])
+}
+
+const keyBy = (collection, predicate) => {
+  let _predicate = _.iteratee(predicate)
+  return Object.values(collection).reduce((acc, cur) => {
+    acc[_predicate(cur)] = cur
+    return acc
+  }, {})
+}
+
+const map = (collection, predicate) => {
+  let _predicate = _.iteratee(predicate)
+  return Object.values(collection).reduce((acc, cur) => {
+    acc.push(_predicate(cur))
+    return acc
+  }, [])
+}
