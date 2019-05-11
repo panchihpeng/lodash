@@ -600,3 +600,147 @@ const map = (collection, predicate) => {
     return acc
   }, [])
 }
+
+const res = [
+  {
+    GameName: '辨识力-找相同',
+    Score: 4.0,
+    Level: 1,
+    PersonId: 2671701,
+    CheckTime: '2019/5/8 10:33:00',
+    Percent: 80.0
+  },
+  {
+    GameName: '辨识力-找不同',
+    Score: 4.0,
+    Level: 1,
+    PersonId: 2671701,
+    CheckTime: '2019/5/8 10:33:00',
+    Percent: 80.0
+  },
+  {
+    GameName: '辨识力-几何',
+    Score: 4.0,
+    Level: 1,
+    PersonId: 2671701,
+    CheckTime: '2019/5/8 10:33:00',
+    Percent: 80.0
+  },
+  {
+    GameName: '辨识力-辩色',
+    Score: 4.0,
+    Level: 1,
+    PersonId: 2671701,
+    CheckTime: '2019/5/8 10:33:00',
+    Percent: 80.0
+  },
+  {
+    GameName: '记忆力-数字',
+    Score: 4.0,
+    Level: 1,
+    PersonId: 2671701,
+    CheckTime: '2019/5/8 10:33:00',
+    Percent: 80.0
+  },
+  {
+    GameName: '记忆力-颜色',
+    Score: 4.0,
+    Level: 1,
+    PersonId: 2671701,
+    CheckTime: '2019/5/8 10:33:00',
+    Percent: 80.0
+  },
+  {
+    GameName: '辨识力-找相同',
+    Score: 4.0,
+    Level: 1,
+    PersonId: 2671701,
+    CheckTime: '2019/5/9 10:33:00',
+    Percent: 40.0
+  },
+  {
+    GameName: '辨识力-找不同',
+    Score: 4.0,
+    Level: 1,
+    PersonId: 2671701,
+    CheckTime: '2019/5/9 10:33:00',
+    Percent: 40.0
+  },
+  {
+    GameName: '辨识力-几何',
+    Score: 4.0,
+    Level: 1,
+    PersonId: 2671701,
+    CheckTime: '2019/5/9 10:33:00',
+    Percent: 40.0
+  },
+  {
+    GameName: '辨识力-辩色',
+    Score: 4.0,
+    Level: 1,
+    PersonId: 2671701,
+    CheckTime: '2019/5/9 10:33:00',
+    Percent: 80.0
+  },
+  {
+    GameName: '记忆力-数字',
+    Score: 4.0,
+    Level: 1,
+    PersonId: 2671701,
+    CheckTime: '2019/5/9 10:33:00',
+    Percent: 80.0
+  },
+  {
+    GameName: '记忆力-颜色',
+    Score: 4.0,
+    Level: 1,
+    PersonId: 2671701,
+    CheckTime: '2019/5/9 10:33:00',
+    Percent: 80.0
+  }
+]
+
+const groupBy = (array, property) => {
+  return array.reduce((acc, cur) => {
+    let key = cur[property]
+    if (!acc[key]) {
+      acc[key] = []
+    }
+    acc[key].push(
+      Object.assign(cur, {
+        GameName: cur.GameName.replace(/\B[-]\B/g, '')
+      })
+    )
+    return acc
+  }, {})
+}
+
+let _res = groupBy(res, 'CheckTime')
+let array = []
+for (let key in _res) {
+  let obj = {}
+  obj['日期'] = key
+  let _skills = _res[key].map(item => {
+    let _obj = {}
+    let _gameName = item['GameName']
+    let _percent = item['Percent']
+    _obj[_gameName] = _percent
+    return _obj
+  })
+  let skills = Object.assign(obj, ..._skills)
+  array.push(skills)
+}
+
+let allData = array.map(item => {
+  let gameData = {
+    columns: ['日期', '辨识力找相同', '辨识力找不同', '辨识力几何', '记忆力颜色', '记忆力数字'],
+    rows: [item]
+  }
+  let time = item['日期']
+  return {
+    gameData,
+    time
+  }
+})
+let correctData = allData.sort((a, b) => new Date(b.time) - new Date(a.time)).slice(0, 5)
+console.log(correctData, 'correctData')
