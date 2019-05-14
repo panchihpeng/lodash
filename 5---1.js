@@ -744,3 +744,68 @@ let allData = array.map(item => {
 })
 let correctData = allData.sort((a, b) => new Date(b.time) - new Date(a.time)).slice(0, 5)
 console.log(correctData, 'correctData')
+
+const orderBy = (collection, predicate, order) => {
+  let _predicate = _.iteratee(predicate)
+  if (order === 'desc') {
+    return collection.sort((a, b) => _predicate(b) > _predicate(a))
+  } else {
+    return collection.sort((a, b) => _predicate(a) > _predicate(b))
+  }
+}
+
+const partition = (collection, predicate) => {
+  let _predicate = _.iteratee(predicate)
+  return collection.reduce(
+    (acc, cur) => {
+      if (_predicate(cur)) {
+        acc[0].push(cur)
+      } else if (!_predicate(cur)) {
+        acc[1].push(cur)
+      }
+      return acc
+    },
+    [[], []]
+  )
+}
+
+// combiner is function must return sth
+const reduce = (array, combiner, initialValue) => {
+  for (let i = 0; i < array.length; i++) {
+    initialValue = combiner(initialValue, array[i])
+  }
+  return initialValue
+}
+
+const reject = (collection, predicate) => {
+  let _predicate = _.iteratee(predicate)
+  return collection.filter(item => {
+    return !_predicate(item)
+  })
+}
+
+const sample = collection => {
+  return Object.values(collection)[(Math.random() * Object.values(collection).length) | 0]
+}
+
+const size = collection => {
+  if (typeof collection === 'object') {
+    return Object.values(collection).length
+  } else {
+    return collection.length
+  }
+}
+
+const judgeType = collection => {
+  return Object.prototype.toString.call(collection).slice(8, -1)
+}
+
+const some = (collection, predicate) => {
+  let _predicate = _.iteratee(predicate)
+  for (let key of collection) {
+    if (_predicate(collection[key])) {
+      return true
+    }
+  }
+  return false
+}
