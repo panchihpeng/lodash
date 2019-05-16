@@ -807,25 +807,6 @@ const some = (collection, predicate) => {
   return false
 }
 
-const curry = () => {
-
-}
-
-const debounce = () => {
- 
-}
-
-const throttle = () => {
-
-}
-
-const cloneDeep = () => {
-
-}
-
-const isEqual = () => {
-
-}
 
 const max = (array) => {
  return array.reduce((a,b) => a > b ? a: b )
@@ -845,4 +826,62 @@ const maxAndMin = array => {
     }
   }
   return [_max, _min]
+}
+
+const shuffle = ([...arr]) => {
+  let m = arr.length;
+  while (m) {
+    const i = Math.floor(Math.random() * m--)
+    [arr[m], arr[i]] = [arr[i], arr[m]]
+  }
+  return arr
+}
+
+
+const debounce = (func, delay) => {
+  // 返回一个新的函数 新的函数做节流原函数
+  let timer
+
+  return function(...args) {
+    // 接受返回函数的参数
+
+    if (timer) {
+      clearTimeout(timer)
+    }
+    // 时间不到继续搜索  清零
+
+    timer = setTimeout(() => {
+      func.apply(this, args)
+    }, delay)
+  }
+}
+
+
+
+
+
+
+
+const trim = ()=>{
+
+}
+
+const curry = () => {
+
+}
+
+const debounce = () => {
+ 
+}
+
+const throttle = () => {
+
+}
+
+const cloneDeep = () => {
+
+}
+
+const isEqual = () => {
+
 }
