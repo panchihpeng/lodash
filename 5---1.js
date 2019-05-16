@@ -706,11 +706,7 @@ const groupBy = (array, property) => {
     if (!acc[key]) {
       acc[key] = []
     }
-    acc[key].push(
-      Object.assign(cur, {
-        GameName: cur.GameName.replace(/\B[-]\B/g, '')
-      })
-    )
+    acc[key].push(cur)
     return acc
   }, {})
 }
@@ -722,7 +718,7 @@ for (let key in _res) {
   obj['日期'] = key
   let _skills = _res[key].map(item => {
     let _obj = {}
-    let _gameName = item['GameName']
+    let _gameName = item['GameName'].replace('-', '')
     let _percent = item['Percent']
     _obj[_gameName] = _percent
     return _obj
@@ -773,6 +769,7 @@ const partition = (collection, predicate) => {
 const reduce = (array, combiner, initialValue) => {
   for (let i = 0; i < array.length; i++) {
     initialValue = combiner(initialValue, array[i])
+    // initialValue 不断的在迭代
   }
   return initialValue
 }
@@ -808,4 +805,44 @@ const some = (collection, predicate) => {
     }
   }
   return false
+}
+
+const curry = () => {
+
+}
+
+const debounce = () => {
+ 
+}
+
+const throttle = () => {
+
+}
+
+const cloneDeep = () => {
+
+}
+
+const isEqual = () => {
+
+}
+
+const max = (array) => {
+ return array.reduce((a,b) => a > b ? a: b )
+}
+
+const max = array => array.reduce((a,b) => a > b ? a: b)
+
+const maxAndMin = array => {
+  let _max = array[0]
+  let _min = array[0]
+  for (let i = 0; i < array.length; i++) {
+    if (array[i] > _max) {
+      _max = array[i]
+    }
+    if (array[i] < _min){
+      _min = array[i]
+    }
+  }
+  return [_max, _min]
 }
