@@ -858,8 +858,15 @@ const debounce = (func, delay) => {
 
 
 
+const accum = (text) => {
+ return text.split('').map((item, index)=> {
+    return item.toUpperCase() + item.toLowerCase().repeat(index)
+  }).join('-')
+}
 
+const accum = text => text.split('').map((item,index)=> item.toUpperCase() + item.toLowerCase().repeat(index)).join('_')
 
+// accum("abcd") => "A-Bb-Ccc-Dddd"
 
 
 const trim = ()=>{
