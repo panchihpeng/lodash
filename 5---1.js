@@ -1,3 +1,5 @@
+import { get } from "http";
+
 const chunk = (array, size = 1) => {
   let res = []
   let len = array.length
@@ -868,27 +870,76 @@ const accum = text => text.split('').map((item,index)=> item.toUpperCase() + ite
 
 // accum("abcd") => "A-Bb-Ccc-Dddd"
 
+// bind() 方法会创建一个新函数。
+// 当这个新函数被调用时，bind() 的第一个参数将作为它运行时的 this，
+// 之后的一序列参数将会在传递的实参前传入作为它的参数
+
+const _bind =  (func, ...fixedArgs) => {
+  return  (...args) => {
+    return func(...fixedArgs, ...args)
+  }
+}
+
+const curry = (fn,  len = func.length) => {
+  return (...args)=>{
+    if (args.length >= len) {
+      return fn(...args)
+    } else {
+      return curry(fn.bind(null,...args))
+    }
+  }
+}
+
+const debounce = (fn, duration) => {
+  let timer
+  return (...args)=> {
+    if (timer) {
+      clearTimeout(timer)
+    }
+    setTimeout(()=>{
+      fn.call(this, ...args)
+    },duration)
+  }
+}
+
+const throttle = (fn, duration) => {
+  let lastRuntime = -Infinity
+  let lastResult
+  return (...args)=> {
+    let now = Date.now()
+    if (now -lastRuntime > duration) {
+      lastResult = fn.call(this, ...args)
+    }
+    return lastResult
+  }
+}
+
+const getType = value => Object.prototype.toString.call(value).slice(8, -1).toLowerCase()
+
+const isEqual = (value, other) => {
+  let typeValue = getType(value)
+  let typeOther = getType(other)
+
+  if (value === other) return true
+  if (_.isNaN()&&_.isNaN()) return true
+  if (value.toString() === other.toString()) return true
+  if (typeValue !== typeOther)  return false
+  if (typeValue  === 'string' || typeValue === 'boolean' || typeValue === 'number' || typeValue === 'date') {
+    return value.toString() === other.toString()
+  }
+  if (typeValue === 'array' || typeValue === 'object') {
+    let keyValue = Object.keys(value)
+    let keyOther = Object.keys(other)
+    if (keyValue.length !== keyOther.length) return false
+    return keyValue.every(key => isEqual(value[key], other[key]))
+  }
+  return false
+}
 
 const trim = ()=>{
 
 }
-
-const curry = () => {
-
-}
-
-const debounce = () => {
- 
-}
-
-const throttle = () => {
-
-}
-
 const cloneDeep = () => {
 
 }
 
-const isEqual = () => {
-
-}
