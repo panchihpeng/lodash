@@ -1,4 +1,3 @@
-import { get } from "http";
 
 const chunk = (array, size = 1) => {
   let res = []
@@ -840,23 +839,6 @@ const shuffle = ([...arr]) => {
 }
 
 
-const debounce = (func, delay) => {
-  // 返回一个新的函数 新的函数做节流原函数
-  let timer
-
-  return function(...args) {
-    // 接受返回函数的参数
-
-    if (timer) {
-      clearTimeout(timer)
-    }
-    // 时间不到继续搜索  清零
-
-    timer = setTimeout(() => {
-      func.apply(this, args)
-    }, delay)
-  }
-}
 
 
 
@@ -880,38 +862,75 @@ const _bind =  (func, ...fixedArgs) => {
   }
 }
 
+
+// 柯里化 如果参数传过够以后就直接调用函数, 
+// 如果没有就继续传继续调用函数, 最关键的是递归
+
 const curry = (fn,  len = func.length) => {
   return (...args)=>{
+    // 这里的 ...args 是给柯里化函数传的参数
     if (args.length >= len) {
       return fn(...args)
     } else {
-      return curry(fn.bind(null,...args))
+      return curry(fn.bind(null,...args), len - args.length)
     }
   }
 }
 
-const debounce = (fn, duration) => {
+
+const debounce = (func, delay) => {
+  // 返回一个新的函数 新的函数做节流原函数
   let timer
-  return (...args)=> {
+
+  return function(...args) {
+    // 接受返回函数的参数
+
     if (timer) {
       clearTimeout(timer)
     }
-    setTimeout(()=>{
-      fn.call(this, ...args)
-    },duration)
+    // 时间不到继续搜索  清零
+
+    timer = setTimeout(() => {
+      func.apply(this, args)
+    }, delay)
   }
 }
 
-const throttle = (fn, duration) => {
-  let lastRuntime = -Infinity
+
+function debounce(f, duration){
+  let timer
+
+  return function(...args) {
+
+    if (timer) {
+      clearTimeout(timer)
+    }
+    // 运行之间要取消
+    // 未来运行
+   timer =  setTimeout(()=> {
+      f.call(this, ...args)
+    }, duration)
+  }
+
+}
+
+
+// 实际上这个函数的作用就是如此，它可以将一个函数的调用频率限制在一定阈值内，例如 1s，那么 1s 内这个函数一定不会被调用两次.
+
+
+function throttle (fn, duration) {
+  let lastRuntime = 0 
+  // -Infinity
   let lastResult
-  return (...args)=> {
+  return function (...args) {
     let now = Date.now()
-    if (now -lastRuntime > duration) {
-      lastResult = fn.call(this, ...args)
+    if (now - lastRuntime > duration) {
+      lastResult = fn.call(this,...args)
+      lastRuntime = now
     }
     return lastResult
   }
+ 
 }
 
 const getType = value => Object.prototype.toString.call(value).slice(8, -1).toLowerCase()
