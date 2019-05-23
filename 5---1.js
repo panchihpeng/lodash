@@ -1,4 +1,3 @@
-
 const chunk = (array, size = 1) => {
   let res = []
   let len = array.length
@@ -808,12 +807,11 @@ const some = (collection, predicate) => {
   return false
 }
 
-
-const max = (array) => {
- return array.reduce((a,b) => a > b ? a: b )
+const max = array => {
+  return array.reduce((a, b) => (a > b ? a : b))
 }
 
-const max = array => array.reduce((a,b) => a > b ? a: b)
+const max = array => array.reduce((a, b) => (a > b ? a : b))
 
 const maxAndMin = array => {
   let _max = array[0]
@@ -822,7 +820,7 @@ const maxAndMin = array => {
     if (array[i] > _max) {
       _max = array[i]
     }
-    if (array[i] < _min){
+    if (array[i] < _min) {
       _min = array[i]
     }
   }
@@ -830,107 +828,80 @@ const maxAndMin = array => {
 }
 
 const shuffle = ([...arr]) => {
-  let m = arr.length;
+  let m = arr.length
   while (m) {
-    const i = Math.floor(Math.random() * m--)
-    [arr[m], arr[i]] = [arr[i], arr[m]]
+    const i = (Math.floor(Math.random() * m--)[(arr[m], arr[i])] = [arr[i], arr[m]])
   }
   return arr
 }
 
-
-
-
-
-const accum = (text) => {
- return text.split('').map((item, index)=> {
-    return item.toUpperCase() + item.toLowerCase().repeat(index)
-  }).join('-')
+const accum = text => {
+  return text.split('').map((item, index) => {
+      return item.toUpperCase() + item.toLowerCase().repeat(index)
+    }).join('-')
 }
 
-const accum = text => text.split('').map((item,index)=> item.toUpperCase() + item.toLowerCase().repeat(index)).join('_')
+const accum = text =>
+  text.split('').map((item, index) => item.toUpperCase() + item.toLowerCase().repeat(index)).join('_')
 
 // accum("abcd") => "A-Bb-Ccc-Dddd"
 
-// bind() 方法会创建一个新函数。
-// 当这个新函数被调用时，bind() 的第一个参数将作为它运行时的 this，
-// 之后的一序列参数将会在传递的实参前传入作为它的参数
-
-const _bind =  (func, ...fixedArgs) => {
-  return  (...args) => {
-    return func(...fixedArgs, ...args)
-  }
-}
-
-
-// 柯里化 如果参数传过够以后就直接调用函数, 
+// 柯里化 如果参数传过够以后就直接调用函数,
 // 如果没有就继续传继续调用函数, 最关键的是递归
 
-const curry = (fn,  len = func.length) => {
-  return (...args)=>{
+const curry = (fn, len = func.length) => {
+  return (...args) => {
     // 这里的 ...args 是给柯里化函数传的参数
     if (args.length >= len) {
       return fn(...args)
     } else {
-      return curry(fn.bind(null,...args), len - args.length)
+      return curry(fn.bind(null, ...args), len - args.length)
     }
   }
 }
 
-
-const debounce = (func, delay) => {
-  // 返回一个新的函数 新的函数做节流原函数
+function debounce(f, duration) {
   let timer
 
   return function(...args) {
-    // 接受返回函数的参数
-
-    if (timer) {
-      clearTimeout(timer)
-    }
-    // 时间不到继续搜索  清零
-
-    timer = setTimeout(() => {
-      func.apply(this, args)
-    }, delay)
-  }
-}
-
-
-function debounce(f, duration){
-  let timer
-
-  return function(...args) {
-
     if (timer) {
       clearTimeout(timer)
     }
     // 运行之间要取消
     // 未来运行
-   timer =  setTimeout(()=> {
+    timer = setTimeout(() => {
       f.call(this, ...args)
     }, duration)
   }
-
 }
-
 
 // 实际上这个函数的作用就是如此，它可以将一个函数的调用频率限制在一定阈值内，例如 1s，那么 1s 内这个函数一定不会被调用两次.
 
-
-function throttle (fn, duration) {
-  let lastRuntime = 0 
+function throttle(fn, duration) {
+  let lastRuntime = 0
   // -Infinity
   let lastResult
-  return function (...args) {
+  return function(...args) {
     let now = Date.now()
     if (now - lastRuntime > duration) {
-      lastResult = fn.call(this,...args)
+      lastResult = fn.call(this, ...args)
       lastRuntime = now
     }
     return lastResult
   }
- 
+}
+
+function throttle (fn, duration) {
+  let lastRuntime = 0
+  let lastResult
+  return function (...args) {
+    let now = Date.now()
+    if (now - lastRuntime > duration) {
+      lastResult =  fn.call(this, ...args)
+      lastRuntime = now
+    }
+    return lastResult
+  }
 }
 
 const getType = value => Object.prototype.toString.call(value).slice(8, -1).toLowerCase()
@@ -940,10 +911,10 @@ const isEqual = (value, other) => {
   let typeOther = getType(other)
 
   if (value === other) return true
-  if (_.isNaN()&&_.isNaN()) return true
+  if (_.isNaN() && _.isNaN()) return true
   if (value.toString() === other.toString()) return true
-  if (typeValue !== typeOther)  return false
-  if (typeValue  === 'string' || typeValue === 'boolean' || typeValue === 'number' || typeValue === 'date') {
+  if (typeValue !== typeOther) return false
+  if (typeValue === 'string' || typeValue === 'boolean' || typeValue === 'number' || typeValue === 'date') {
     return value.toString() === other.toString()
   }
   if (typeValue === 'array' || typeValue === 'object') {
@@ -955,10 +926,51 @@ const isEqual = (value, other) => {
   return false
 }
 
-const trim = ()=>{
 
-}
-const cloneDeep = () => {
 
+const reduce = (array, fn, initialVal) => {
+  for (let i = 0; i < array.length; i++) {
+    initialVal = fn(initialVal, array[i], [i], array)
+  }
+  return initialVal
 }
+
+function debounce(fn, duration) {
+  let timer
+  return function(...args) {
+    if (timer) {
+      clearTimeout(timer)
+    }
+
+    timer = setTimeout(() => {
+      fn.bind(this, ...args)
+    }, duration)
+  }
+}
+
+const curry = (fn, len = func.length) => {
+  return (...args) => {
+    // 这里的 ...args 是给柯里化函数传的参数
+    if (args.length >= len) {
+      return fn(...args)
+    } else {
+      return curry(fn.bind(null, ...args), len - args.length)
+    }
+  }
+}
+
+
+// bind() 方法会创建一个新函数。
+// 当这个新函数被调用时，bind() 的第一个参数将作为它运行时的 this，
+// 之后的一序列参数将会在传递的实参前传入作为它的参数
+
+const _bind = (func, ...fixedArgs) => {
+  return (...args) => {
+    return func(...fixedArgs, ...args)
+  }
+}
+
+const trim = () => {}
+
+const cloneDeep = () => {}
 
