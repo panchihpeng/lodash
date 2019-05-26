@@ -836,13 +836,19 @@ const shuffle = ([...arr]) => {
 }
 
 const accum = text => {
-  return text.split('').map((item, index) => {
+  return text
+    .split('')
+    .map((item, index) => {
       return item.toUpperCase() + item.toLowerCase().repeat(index)
-    }).join('-')
+    })
+    .join('-')
 }
 
 const accum = text =>
-  text.split('').map((item, index) => item.toUpperCase() + item.toLowerCase().repeat(index)).join('_')
+  text
+    .split('')
+    .map((item, index) => item.toUpperCase() + item.toLowerCase().repeat(index))
+    .join('_')
 
 // accum("abcd") => "A-Bb-Ccc-Dddd"
 
@@ -891,20 +897,24 @@ function throttle(fn, duration) {
   }
 }
 
-function throttle (fn, duration) {
+function throttle(fn, duration) {
   let lastRuntime = 0
   let lastResult
-  return function (...args) {
+  return function(...args) {
     let now = Date.now()
     if (now - lastRuntime > duration) {
-      lastResult =  fn.call(this, ...args)
+      lastResult = fn.call(this, ...args)
       lastRuntime = now
     }
     return lastResult
   }
 }
 
-const getType = value => Object.prototype.toString.call(value).slice(8, -1).toLowerCase()
+const getType = value =>
+  Object.prototype.toString
+    .call(value)
+    .slice(8, -1)
+    .toLowerCase()
 
 const isEqual = (value, other) => {
   let typeValue = getType(value)
@@ -926,8 +936,6 @@ const isEqual = (value, other) => {
   return false
 }
 
-
-
 const reduce = (array, fn, initialVal) => {
   for (let i = 0; i < array.length; i++) {
     initialVal = fn(initialVal, array[i], [i], array)
@@ -948,7 +956,45 @@ function debounce(fn, duration) {
   }
 }
 
-const curry = (fn, len = func.length) => {
+function debounce(fn, duration) {
+  let timer
+  return function(...args) {
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(() => {
+      fn.bind(this, ...args)
+    }, duration)
+  }
+}
+
+function throttle(fn, duration) {
+  let lastRuntime = 0
+  let lastResult
+  return function(...args) {
+    let now = Date.now()
+    if (now - lastRuntime > duration) {
+      lastResult = fn.call(this, ...args)
+      lastRuntime = now
+    }
+    return lastResult
+  }
+}
+
+function throttle(fn, duration) {
+  let lastRuntime = 0
+  let lastResult
+  return function(...args) {
+    let now = Date.now()
+    if (now - lastRuntime > duration) {
+      lastResult = fn.call(this, ...args)
+      lastRuntime = now
+    }
+    return lastResult
+  }
+}
+
+const curry = (fn, len = fn.length) => {
   return (...args) => {
     // 这里的 ...args 是给柯里化函数传的参数
     if (args.length >= len) {
@@ -959,6 +1005,15 @@ const curry = (fn, len = func.length) => {
   }
 }
 
+const curry = (fn, len = fn.length) => {
+  return (...args) => {
+    if (args.length >= len) {
+      return fn(...args)
+    } else {
+      return curry(fn.bind(null, ...args), len - args.length)
+    }
+  }
+}
 
 // bind() 方法会创建一个新函数。
 // 当这个新函数被调用时，bind() 的第一个参数将作为它运行时的 this，
@@ -974,3 +1029,15 @@ const trim = () => {}
 
 const cloneDeep = () => {}
 
+function throttle(fn, duration) {
+  let lastRuntime = 0
+  let lastResult
+  return function(...args) {
+    let now = Date.now()
+    if (now - lastRuntime >= duration) {
+      lastResult = fn.bind(this, ...agrs)
+      lastRuntime = now
+    }
+    return lastResult
+  }
+}
