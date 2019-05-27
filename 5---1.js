@@ -835,6 +835,19 @@ const shuffle = ([...arr]) => {
   return arr
 }
 
+
+const dec2X = (decNumber,x)=>{
+  let stack = []
+  let _decNumber
+  while (decNumber > 0) {
+      _decNumber = decNumber % x
+      stack.push(_decNumber)
+      decNumber = (decNumber - _decNumber) / x
+  }
+  return stack.reverse().join('')
+}
+
+
 const accum = text => {
   return text
     .split('')
