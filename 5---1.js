@@ -835,18 +835,16 @@ const shuffle = ([...arr]) => {
   return arr
 }
 
-
-const dec2X = (decNumber,x)=>{
+const dec2X = (decNumber, x) => {
   let stack = []
   let _decNumber
   while (decNumber > 0) {
-      _decNumber = decNumber % x
-      stack.push(_decNumber)
-      decNumber = (decNumber - _decNumber) / x
+    _decNumber = decNumber % x
+    stack.push(_decNumber)
+    decNumber = (decNumber - _decNumber) / x
   }
   return stack.reverse().join('')
 }
-
 
 const accum = text => {
   return text
@@ -1038,6 +1036,15 @@ const _bind = (func, ...fixedArgs) => {
   }
 }
 
+// call
+const _call = function(context, ...args) {
+  var context = context || window
+  context.fn = this
+  const result = context.fn(...args)
+  delete context.fn()
+  return result
+}
+
 const trim = () => {}
 
 const cloneDeep = () => {}
@@ -1048,9 +1055,48 @@ function throttle(fn, duration) {
   return function(...args) {
     let now = Date.now()
     if (now - lastRuntime >= duration) {
-      lastResult = fn.bind(this, ...agrs)
+      lastResult = fn.bind(this, ...args)
       lastRuntime = now
     }
     return lastResult
   }
 }
+
+const PriorityQueue = function() {
+  let queue = []
+
+  const queueElement = function(element, priority) {
+    this.element = element
+    this.priority = priority
+  }
+  // 插入方法
+  PriorityQueue.prototype.enqueue = function(element, priority) {
+    // 创建 queueElement 对象
+    let _queueElement = new queueElement(element, priority)
+
+    // 若队列为空无需比较
+    if (this.queue.length === 0) {
+      this.queue.push(_queueElement)
+    } else {
+      // 不为空
+      let flag = false
+      for (let i = 0; i < this.queue.length; i++) {
+        if (_queueElement.priority < this.queue[i].priority) {
+          this.queue.splice(i, 0, _queueElement)
+          flag = true
+          break // 已经找到优先级高的
+        }
+      }
+      // 到最后都没有添加
+      if (!flag) {
+        this.queue.push(_queueElement)
+      }
+    }
+  }
+  return queue
+}
+
+var one = new PriorityQueue()
+one.enqueue('A', 111)
+one.enqueue('B', 110)
+one.enqueue('C', 124)
