@@ -1110,3 +1110,26 @@ var one = new PriorityQueue()
 one.enqueue('A', 111)
 one.enqueue('B', 110)
 one.enqueue('C', 124)
+
+// 
+function shadowCopy () {
+
+}
+
+function deepClone (obj) {
+  const objArray = Array.isArray(obj) ? [] : {}
+  if (obj && typeof obj === 'object') {
+    for (key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        // 如果 obj 的子元素是对象， 递归
+        if (obj[key] && typeof obj[key] === 'object') {
+          objArray[key] = deepClone(obj[key])
+        } else {
+          objArray[key] = obj[key]
+        }
+      }
+    }
+    return objArray
+  }
+
+}
