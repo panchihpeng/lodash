@@ -2769,28 +2769,26 @@ var panchihpeng = {
 			}
 			return lastResult
 		}
+	},
+
+	isEqual: function isEqual(value, other) {
+		if (value === other) return true
+		var type1 = this.getType(value)
+		var type2 = this.getType(other)
+
+		if (type1 !== type2) return false
+
+		if (type1 === 'String' || type1 === 'Boolean' || type1 === 'Number') {
+			return value.toString() === other.toString()
+		}
+
+		if (type1 === 'Array' || type1 === 'Object') {
+			var key1 = Object.keys(value)
+			var key2 = Object.keys(other)
+			if (key1.length !== key2.length) return false
+			return key1.every(key => isEqual(value[key], other[key]))
+		}
+
+		return false
 	}
-
-	// isEqual: function isEqual(value, other) {
-	// 	if (value === other) return true
-	// 	var type1 = this.getType(value)
-	// 	var type2 = this.getType(other)
-
-	// 	if (type1 !== type2) return false
-
-	// 	if (type1 === 'String' || type1 === 'Boolean' || type1 === 'Number') {
-	// 		return value.toString() === other.toString()
-	// 	}
-
-	// 	if (type1 === 'Array' || type1 = 'Object') {
-	// 		var key1 = Object.keys(value)
-	// 		var key2 = Object.keys(other)
-	// 		if (key1.length !== key2.length) return false
-	// 		return key1.every(key => isEqual(value[key], other[key]))
-	// 	}
-
-	// 	return false
-	// }
-
-
 }
