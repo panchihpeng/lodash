@@ -878,7 +878,7 @@ const curry = (fn, len = func.length) => {
 }
 
 // 比较多次接受的参数总数与函数定义时的入参数量，当接受参数的数量大于或等于被 Currying 函数的传入参数数量时，就返回计算结果，否则返回一个继续接受参数的函数。
-function curry (fn, ...args) {
+function curry(fn, ...args) {
   if (args.length >= fn.length) {
     return fn(...args)
   } else {
@@ -890,7 +890,7 @@ function curry (fn, ...args) {
 function debounce(f, duration) {
   let timer
 
-  return function(...args) {
+  return function (...args) {
     if (timer) {
       clearTimeout(timer)
     }
@@ -908,7 +908,7 @@ function throttle(fn, duration) {
   let lastRuntime = 0
   // -Infinity
   let lastResult
-  return function(...args) {
+  return function (...args) {
     let now = Date.now()
     if (now - lastRuntime > duration) {
       lastResult = fn.call(this, ...args)
@@ -921,7 +921,7 @@ function throttle(fn, duration) {
 function throttle(fn, duration) {
   let lastRuntime = 0
   let lastResult
-  return function(...args) {
+  return function (...args) {
     let now = Date.now()
     if (now - lastRuntime > duration) {
       lastResult = fn.call(this, ...args)
@@ -966,7 +966,7 @@ const reduce = (array, fn, initialVal) => {
 
 function debounce(fn, duration) {
   let timer
-  return function(...args) {
+  return function (...args) {
     if (timer) {
       clearTimeout(timer)
     }
@@ -979,7 +979,7 @@ function debounce(fn, duration) {
 
 function debounce(fn, duration) {
   let timer
-  return function(...args) {
+  return function (...args) {
     if (timer) {
       clearTimeout(timer)
     }
@@ -992,7 +992,7 @@ function debounce(fn, duration) {
 function throttle(fn, duration) {
   let lastRuntime = 0
   let lastResult
-  return function(...args) {
+  return function (...args) {
     let now = Date.now()
     if (now - lastRuntime > duration) {
       lastResult = fn.call(this, ...args)
@@ -1005,7 +1005,7 @@ function throttle(fn, duration) {
 function throttle(fn, duration) {
   let lastRuntime = 0
   let lastResult
-  return function(...args) {
+  return function (...args) {
     let now = Date.now()
     if (now - lastRuntime > duration) {
       lastResult = fn.call(this, ...args)
@@ -1047,7 +1047,7 @@ const _bind = (func, ...fixedArgs) => {
 }
 
 // call
-const _call = function(context, ...args) {
+const _call = function (context, ...args) {
   var context = context || window
   context.fn = this
   const result = context.fn(...args)
@@ -1055,14 +1055,14 @@ const _call = function(context, ...args) {
   return result
 }
 
-const trim = () => {}
+const trim = () => { }
 
-const cloneDeep = () => {}
+const cloneDeep = () => { }
 
 function throttle(fn, duration) {
   let lastRuntime = 0
   let lastResult
-  return function(...args) {
+  return function (...args) {
     let now = Date.now()
     if (now - lastRuntime >= duration) {
       lastResult = fn.bind(this, ...args)
@@ -1072,15 +1072,15 @@ function throttle(fn, duration) {
   }
 }
 
-const PriorityQueue = function() {
+const PriorityQueue = function () {
   let queue = []
 
-  const queueElement = function(element, priority) {
+  const queueElement = function (element, priority) {
     this.element = element
     this.priority = priority
   }
   // 插入方法
-  PriorityQueue.prototype.enqueue = function(element, priority) {
+  PriorityQueue.prototype.enqueue = function (element, priority) {
     // 创建 queueElement 对象
     let _queueElement = new queueElement(element, priority)
 
@@ -1112,11 +1112,11 @@ one.enqueue('B', 110)
 one.enqueue('C', 124)
 
 // 
-function shadowCopy () {
+function shadowCopy() {
 
 }
 
-function deepClone (obj) {
+function deepClone(obj) {
   const objArray = Array.isArray(obj) ? [] : {}
   if (obj && typeof obj === 'object') {
     for (key in obj) {
@@ -1133,3 +1133,75 @@ function deepClone (obj) {
   }
 
 }
+
+
+
+getWeeksInMonth = (year, month) => {
+
+  const weeks = [];
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+  const daysInMonth = lastDay.getDate();
+  let dayOfWeek = firstDay.getDay();
+  let start
+  let end
+
+  for (let i = 1; i < daysInMonth + 1; i++) {
+
+    if (dayOfWeek === 0 || i === 1) {
+      start = i;
+    }
+
+    if (dayOfWeek === 6 || i === daysInMonth) {
+
+      end = i;
+
+      if (start !== end) {
+
+        weeks.push({
+          start: start,
+          end: end
+        });
+      }
+    }
+
+    dayOfWeek = new Date(year, month, i).getDay();
+  }
+
+  return weeks;
+}
+
+
+
+
+// 钱的转化
+var digitUppercase = function (n) {
+  var fraction = ['角', '分'];
+  var digit = [
+    '零', '壹', '贰', '叁', '肆',
+    '伍', '陆', '柒', '捌', '玖'
+  ];
+  var unit = [
+    ['元', '万', '亿'],
+    ['', '拾', '佰', '仟']
+  ];
+  var head = n < 0 ? '欠' : '';
+  n = Math.abs(n);
+  var s = '';
+  for (var i = 0; i < fraction.length; i++) {
+    s += (digit[Math.floor(n * 10 * Math.pow(10, i)) % 10] + fraction[i]).replace(/零./, '');
+  }
+  s = s || '整';
+  n = Math.floor(n);
+  for (var i = 0; i < unit[0].length && n > 0; i++) {
+    var p = '';
+    for (var j = 0; j < unit[1].length && n > 0; j++) {
+      p = digit[n % 10] + unit[1][j] + p;
+      n = Math.floor(n / 10);
+    }
+    s = p.replace(/(零.)*零$/, '').replace(/^$/, '零') + unit[0][i] + s;
+  }
+  return head + s.replace(/(零.)*零元/, '元')
+    .replace(/(零.)+/g, '零')
+    .replace(/^整$/, '零元整');
+};
