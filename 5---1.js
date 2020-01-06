@@ -1136,7 +1136,7 @@ function deepClone(obj) {
 
 
 
-getWeeksInMonth = (year, month) => {
+const getWeeksInMonth = (year, month) => {
 
   const weeks = [];
   const firstDay = new Date(year, month, 1);
@@ -1171,7 +1171,43 @@ getWeeksInMonth = (year, month) => {
   return weeks;
 }
 
+const getWeekMonth =(year, month) => {
+  const firstDay = dayjs(`${year}-${month}`).startOf('month').format('d')
 
+  let startDay
+  if (firstDay === 1) {
+    startDay = dayjs(`${year}-${month}`).format('YYYY-MM-DD')
+  } else {
+    const diffDays = (8 - firstDay) % 7
+
+    startDay = dayjs(`${year}-${month}`).startOf('month').add(diffDays, 'days').format('YYYY-MM-DD')
+  }
+
+  const lastDay = dayjs(`${year}-${month}`).endOf('month').format('d')
+
+  let endDay
+  if (lastDay === 0) {
+    endDay = dayjs(`${year}-${month}`).endOf('month').format('YYYY-MM-DD')
+  } else {
+    const lastDiffDays = 6 - lastDay
+    endDay = dayjs(`${year}-${month}`).startOf('month').add(1, 'month').add(lastDiffDays, 'days').format('YYYY-MM-DD')
+  }
+
+  const weeks = (dayjs(endDay).diff(dayjs(startDay), 'days') + 1) / 7
+
+  const weekList = []
+  for (let i = 1; i <= weeks; i++) {
+    weekList.push({
+      weekName: `第${i}周`,
+      num: i,
+      startDay,
+      endDay: dayjs(startDay).add(6, 'days').format('YYYY-MM-DD'),
+      range: `${dayjs(startDay).format('MM-DD')}~${dayjs(startDay).add(6, 'days').format('MM-DD')}`
+    })
+    startDay = dayjs(startDay).add(7, 'days').format('YYYY-MM-DD')
+  }
+  return weekList
+}
 
 
 // 钱的转化
