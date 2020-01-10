@@ -1242,6 +1242,4 @@ var digitUppercase = function (n) {
     .replace(/^整$/, '零元整');
 };
 
-const delay = time => new Promise(res=> setTimeout(()=> res(),time))
-
 const delay = milliseconds => new Promise(res => setTimeout(() => res(), milliseconds))
