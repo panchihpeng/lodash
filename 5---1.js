@@ -1243,3 +1243,22 @@ var digitUppercase = function (n) {
 };
 
 const delay = milliseconds => new Promise(res => setTimeout(() => res(), milliseconds))
+
+// 解析简单的路径
+const bailRE = /[^\w.$]/
+const parsePath =(path) => {
+  if (bailRE.test(path)) {
+    return
+  }
+  const segments = path.split('.')
+  return (obj)=> {
+    for (let i = 0; i < segments.length; i++) {
+      if (!obj){
+        return
+      } else {
+        obj = obj[segments[i]]
+      }
+    }
+    return obj
+  }
+} 
