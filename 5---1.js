@@ -1262,3 +1262,14 @@ const parsePath =(path) => {
     return obj
   }
 } 
+
+// key vlaue
+res.reduce((acc, cur) => {
+  const obj = {}
+  obj['日期'] = cur.time
+  list.forEach(({ name, count })=> {
+    obj[name] = count
+  })
+  acc.push(obj)
+  return acc
+}, [])
