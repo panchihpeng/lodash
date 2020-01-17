@@ -1265,8 +1265,9 @@ const parsePath =(path) => {
 
 // key vlaue
 res.reduce((acc, cur) => {
+  const {time, list} = cur
   const obj = {}
-  obj['日期'] = cur.time
+  obj['日期'] = time
   list.forEach(({ name, count })=> {
     obj[name] = count
   })
