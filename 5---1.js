@@ -1171,7 +1171,7 @@ const getWeeksInMonth = (year, month) => {
   return weeks;
 }
 
-const getWeekMonth =(year, month) => {
+const getWeekMonth = (year, month) => {
   const firstDay = dayjs(`${year}-${month}`).startOf('month').format('d')
 
   let startDay
@@ -1246,14 +1246,14 @@ const delay = milliseconds => new Promise(res => setTimeout(() => res(), millise
 
 // 解析简单的路径
 const bailRE = /[^\w.$]/
-const parsePath =(path) => {
+const parsePath = (path) => {
   if (bailRE.test(path)) {
     return
   }
   const segments = path.split('.')
-  return (obj)=> {
+  return (obj) => {
     for (let i = 0; i < segments.length; i++) {
-      if (!obj){
+      if (!obj) {
         return
       } else {
         obj = obj[segments[i]]
@@ -1261,15 +1261,32 @@ const parsePath =(path) => {
     }
     return obj
   }
-} 
+}
 
 // key vlaue
 res.reduce((acc, cur) => {
-  const {time, list} = cur
+  const { time, list } = cur
   const obj = {}
   obj['日期'] = time
-  list.forEach(({ name, count })=> {
+  list.forEach(({ name, count }) => {
     obj[name] = count
+  })
+  acc.push(obj)
+  return acc
+}, [])
+
+const _res = res.map(item => {
+  const { list } = item
+  return list.map(({ name, count }) => {
+    return {
+      日期: item.time,
+      [name]: count
+    }
+  })
+}).reduce((acc, cur) => {
+  const obj = {}
+  cur.forEach(it => {
+    Object.assign(obj, it)
   })
   acc.push(obj)
   return acc
