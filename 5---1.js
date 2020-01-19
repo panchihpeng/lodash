@@ -1291,3 +1291,32 @@ const _res = res.map(item => {
   acc.push(obj)
   return acc
 }, [])
+
+
+
+for (let value of data) {
+  value.timeStamp = new Date(value.createtime).getTime()
+  value.inSeconds = new Date(value.returntime).getTime() - new Date(value.ordertime).getTime()
+}
+
+const groupByCreateTime = groupBy(data, 'createtime')
+
+const goodsList = Object.keys(groupByCreateTime).map(item => {
+  const dateList = groupByCreateTime[item]
+  const groupGoodsId = groupBy(dateList, 'goodsid')
+  const list = Object.keys(groupGoodsId).map(it => {
+    const groupGoodsIdList = groupGoodsId[it]
+    const name = groupGoodsIdList[0].goodsname
+    return {
+      id: it,
+      name,
+      count: groupGoodsIdList.length,
+      inSeconds: getSum(groupGoodsIdList, 'inSeconds')
+    }
+  })
+  return {
+    time:item,
+    timeStamp: new Date(item).getTime(),
+    list,
+  }
+}).sort((a,b)=>  a.timeStamp -b.timeStamp)
