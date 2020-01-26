@@ -1315,8 +1315,27 @@ const goodsList = Object.keys(groupByCreateTime).map(item => {
     }
   })
   return {
-    time:item,
+    time: item,
     timeStamp: new Date(item).getTime(),
     list,
   }
-}).sort((a,b)=>  a.timeStamp -b.timeStamp)
+}).sort((a, b) => a.timeStamp - b.timeStamp)
+
+
+
+const formatterJson = (standard, array) => {
+  const _array = []
+  for (let value of array) {
+    value = Object.assign({}, standard, value)
+    _array.push(value)
+  }
+  return _array
+}
+
+const formatterJson = (standard, array) => {
+  return array.reduce((acc, cur) => {
+    acc.push(Object.assign({}, standard, cur))
+    return acc
+  }
+    , [])
+}
